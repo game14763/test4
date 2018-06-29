@@ -13,7 +13,8 @@
         <p id='f{{ food.id }}'>Food: {{ food.food }}</p>
         <p id='s{{ food.id }}'>Sugar: {{ food.sugar }} %</p>
         <form method="post">
-          <input type="submit" name="d{{ food.id }}" value="Delete the food above from menu">
+          <input type="submit" name="delete" id="d{{ food.id }}" value="Delete the food above from menu">
+          {% csrf_token %}
         </form>
       {% endfor %}
     {% endif %}

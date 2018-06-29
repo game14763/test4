@@ -6,7 +6,11 @@ from food.forms import FoodForm
 def index(request):
     add_food = FoodForm()
     if request.method == 'POST':
-        print(request.POST)
+        new_food = FoodForm(request.POST)
+        if new_food.is_valid():
+            new_food.save(commit=True)
+        else:
+            print("ERROR FORM INVALID")
     return render(request, 'food/index.html', {'add_food':add_food})
 
 def menu(request):
