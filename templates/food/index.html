@@ -6,5 +6,14 @@
   </head>
   <body>
     <h1>Food</h1>
+
+
+    <form method="post">
+      {{ add_food.as_p }}
+      <input type="submit" name="Add" value="Add">
+      {% csrf_token %}
+    </form>
+
+    <p><a href="{% url 'food:menu' %}">Menu</a></p>
   </body>
 </html>

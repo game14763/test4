@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Menu</title>
+  </head>
+  <body>
+    <h1>Menu</h1>
+    <a href="{% url 'index' %}">Home</a>
+
+    {% if food_menu %}
+      {% for food in food_menu %}
+        <p id='f{{ food.id }}'>Food: {{ food.food }}</p>
+        <p id='s{{ food.id }}'>Sugar: {{ food.sugar }} %</p>
+        <form method="post">
+          <input type="submit" name="d{{ food.id }}" value="Delete the food above from menu">
+        </form>
+      {% endfor %}
+    {% endif %}
+
+  </body>
+</html>
