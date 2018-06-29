@@ -9,15 +9,23 @@
     <a href="{% url 'index' %}">Home</a>
 
     {% if food_menu %}
+    <table id="id_list_table">
       {% for food in food_menu %}
-        <p id='f{{ food.id }}'>Food: {{ food.food }}</p>
-        <p id='s{{ food.id }}'>Sugar: {{ food.sugar }} %</p>
+        <tr><td>Food: {{ food.food }}</td></tr>
+        <tr><td>Sugar: {{ food.sugar }} %</td></tr>
         <form method="post">
-          <input type="submit" name="delete" id="d{{ food.id }}" value="Delete the food above from menu">
+          <tr>
+            <td>
+              <input type="submit" name="delete_button"
+                     id="d{{ food.id }}"
+                     value="Delete the food above from menu">
+            </td>
+          </tr>
+          <input type="hidden" name="food_name" value="{{ food.food }}">
           {% csrf_token %}
         </form>
       {% endfor %}
+    </table>
     {% endif %}
-
   </body>
 </html>

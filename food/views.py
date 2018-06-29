@@ -15,4 +15,7 @@ def index(request):
 
 def menu(request):
     food_menu = Food.objects.all()
+    if request.method == 'POST':
+        delete_food = request.POST.get('food_name')
+        Food.objects.filter(food=delete_food).delete()
     return render(request, 'food/menu.html', {'food_menu':food_menu})

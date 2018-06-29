@@ -35,7 +35,7 @@ class NewVisitorTest(LiveServerTestCase):
     inputbox = self.browser.find_element_by_id('id_sugar')
     inputbox.send_keys('20')
     inputbox.send_keys(Keys.ENTER)
-    time.sleep(3)
+    time.sleep(1)
 
     # He add in "Chicken" with 15% sugar
     inputbox = self.browser.find_element_by_id('id_food')
@@ -43,7 +43,7 @@ class NewVisitorTest(LiveServerTestCase):
     inputbox = self.browser.find_element_by_id('id_sugar')
     inputbox.send_keys('15')
     inputbox.send_keys(Keys.ENTER)
-    time.sleep(3)
+    time.sleep(1)
 
     # He click on "Menu" to go to food menu
     start_menu = self.browser.find_element_by_tag_name('a')
@@ -55,27 +55,28 @@ class NewVisitorTest(LiveServerTestCase):
     self.assertIn('Menu',header_text)
 
     # He see the food that he add in
-    food = self.browser.find_element_by_id('f1').text
-    self.assertIn('Pork',food)
-    sugar = self.browser.find_element_by_id('s1').text
-    self.assertIn('20',sugar)
+    table = self.browser.find_element_by_id('id_list_table')
+    rows = table.find_elements_by_tag_name('tr')
 
-    food = self.browser.find_element_by_id('f2').text
-    self.assertIn('Chicken',food)
-    sugar = self.browser.find_element_by_id('s2').text
-    self.assertIn('15',sugar)
+    self.assertIn('Food: Pork', [row.text for row in rows])
+    self.assertIn('Sugar: 20 %', [row.text for row in rows])
 
-    # He decide to delete "Pork" by click delete next to it
+    self.assertIn('Food: Chicken', [row.text for row in rows])
+    self.assertIn('Sugar: 15 %', [row.text for row in rows])
+
+    # He decide to delete "Pork" by clicking delete button below to it
     delete_food = self.browser.find_element_by_id('d1')
     delete_food.click()
 
-    # He see that it has been delete and only Chicken is there close the website and go to sleep
-    food = self.browser.find_element_by_id('f2').text
-    self.assertIn('Chicken',food)
-    sugar = self.browser.find_element_by_id('s2').text
-    self.assertIn('15',sugar)
+    # He see that it has been delete and only Chicken is there
+    # So he close the website and go to sleep
+    table = self.browser.find_element_by_id('id_list_table')
+    rows = table.find_elements_by_tag_name('tr')
 
-    food = self.browser.find_element_by_id('f1').text
-    self.assertNotIn('Pork',food)
-    sugar = self.browser.find_element_by_id('s1').text
-    self.assertNotIn('20',sugar)
+    self.assertNotIn('Food: Pork', [row.text for row in rows])
+    self.assertNotIn('Sugar: 20 %', [row.text for row in rows])
+
+    self.assertIn('Food: Chicken', [row.text for row in rows])
+    self.assertIn('Sugar: 15 %', [row.text for row in rows])
+
+    time.sleep(3)
